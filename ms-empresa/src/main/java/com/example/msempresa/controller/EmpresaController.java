@@ -2,6 +2,7 @@ package com.example.msempresa.controller;
 
 import com.example.msempresa.entity.Empresa;
 import com.example.msempresa.service.EmpresaService;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,16 @@ public class EmpresaController {
 
     @GetMapping
     public ResponseEntity<List<Empresa>> list() {
-        return ResponseEntity.ok(empresaService.list());
+        try {
+            return ResponseEntity.ok(empresaService.list());
+        } catch (Exception e) {
+            // Manejo de excepción y logging
+            System.err.println("Error al obtener la lista de empresas: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
+        }
     }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Empresa>> getById(@PathVariable(required = true) Integer id) {
