@@ -35,3 +35,7 @@ spring:
           uri: lb://ms-postulacion-service
           predicates:
                 - Path=/postulacion/**
+        - id: ms-empresa-service
+          url: lb://ms-empresa-service
+          predicate:
+            -Path=/empresa/**
